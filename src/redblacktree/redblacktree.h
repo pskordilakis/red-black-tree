@@ -8,38 +8,40 @@
 #ifndef REDBLACKTREE_H_
 #define REDBLACKTREE_H_
 
-typedef struct rbnode {
-	int key;
-	int color;
-	struct rbnode *p, *left, *right;
-}RBNODE;
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <iso646.h>
+#include <malloc.h>
+
+#include "rbnode.h"
+#include "utils.h"
 
 typedef struct rbtree {
 	RBNODE *root, *nil;
 }RBTREE;
 
-void rbtree_to_dotfile(RBTREE *T);
-bool is_rbtree_empty(RBTREE *T);
-bool is_rbtnode_root(RBTREE *T, RBNODE *x);
-RBNODE *init_rbnode(int key);
-RBNODE *init_nil();
-RBTREE *init_rbtree();
-void destr_rbtree_node(RBTREE *T, int key);
-void destr_rbtree(RBTREE *T);
-void inorder_rbtree_walk(RBTREE *T, RBNODE *x);
-void preorder_rbtree_walk(RBTREE *T, RBNODE *x);
-void postorder_rbtree_walk(RBTREE *T, RBNODE *x);
-RBNODE *rbtree_search(RBTREE *T, RBNODE *x, int key);
-RBNODE *iterative_rbtree_search(RBTREE *T, RBNODE *x, int key);
-RBNODE *rbtree_minimum(RBTREE *T, RBNODE *x);
-RBNODE *rbtree_maximum(RBTREE *T, RBNODE *x);
-RBNODE *rbtree_successor(RBTREE *T, RBNODE *x);
-void rbtree_left_rotate(RBTREE *T, RBNODE *x);
-void rbtree_right_rotate(RBTREE *T, RBNODE *y);
-void rbtree_insert_fixup(RBTREE *T, RBNODE *z);
-void rbtree_insert(RBTREE *T, RBNODE *z);
-void rbtree_transplant(RBTREE *T, RBNODE *u, RBNODE *v);
-void rbtree_delete_fixup(RBTREE *T, RBNODE *x);
-void rbtree_delete(RBTREE *T, RBNODE *z);
+void rbt_to_dotfile(RBTREE *T);
+bool rbt_is_empty(RBTREE *T);
+bool rbt_is_root(RBTREE *T, RBNODE *x);
+
+RBNODE *rbt_init_node(int key);
+void rbt_destroy_node(RBTREE *T, int key);
+
+RBNODE *rbt_init_nil(void);
+RBTREE *rbt_init(void);
+void rbt_destroy(RBTREE *T);
+
+RBNODE *rbt_search(RBTREE *T, RBNODE *x, int key);
+void rbt_inorder(RBTREE *T, RBNODE *x);
+void rbt_preorder(RBTREE *T, RBNODE *x);
+void rbt_postorder(RBTREE *T, RBNODE *x);
+
+RBNODE *rbt_minimum(RBTREE *T, RBNODE *x);
+RBNODE *rbt_maximum(RBTREE *T, RBNODE *x);
+RBNODE *rbt_successor(RBTREE *T, RBNODE *x);
+
+void rbt_insert(RBTREE *T, RBNODE *z);
+void rbt_delete(RBTREE *T, RBNODE *z);
 
 #endif /* REDBLACKTREE_H_ */

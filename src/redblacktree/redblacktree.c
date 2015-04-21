@@ -5,15 +5,7 @@
  *      Author: P. Skordilakis
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <iso646.h>
-#include <malloc.h>
 #include "redblacktree.h"
-
-#define BLACK 1
-#define RED 2
 
 /*
  * This functions are not necessary for the tree to work
@@ -205,101 +197,6 @@ RBNODE *rbtree_successor(RBTREE *T, RBNODE *x) {
 }
 
 /*
- * Left rotation of a node(x)
- * in a red black tree
- */
-void rbtree_left_rotate(RBTREE *T, RBNODE *x) {
-	RBNODE *y = x->right;
-	x->right = y->left;
-	if(y->left not_eq T->nil) {
-		y->left->p = x;
-	}
-	y->p = x->p;
-	if(x->p == T->nil) {
-		T->root = y;
-	}
-	else if(x == x->p->left) {
-		x->p->left = y;
-	}
-	else {
-		x->p->right = y;
-	}
-	y->left = x;
-	x->p = y;
-}
-
-/*
- *Right rotation of a node(y)
- *in a red black tree(T)
- */
-void rbtree_right_rotate(RBTREE *T, RBNODE *y) {
-	RBNODE *x = y->left;
-	y->left = x->right;
-	if(x->right not_eq T->nil) {
-		x->right->p = y;
-	}
-	x->p = y->p;
-	if(y->p == T->nil) {
-		T->root = x;
-	}
-	else if(y == y->p->right) {
-		y->p->right = x;
-	}
-	else{
-		y->p->left = y;
-	}
-	x->right = y;
-	y->p = x;
-}
-
-/*
- * Funtion to preserve the red black properties
- * of a tree(T) after the insertion of a node
- */
-void rbtree_insert_fixup(RBTREE *T, RBNODE *z) {
-	RBNODE *y;
-	while(z->p->color == RED) {
-		if(z->p == z->p->p->left) {
-			y = z->p->p->right;
-			if(y->color == RED) {
-				z->p->color = BLACK;
-				y->color = BLACK;
-				z->p->p->color = RED;
-				z = z->p->p;
-			}
-			else {
-				if(z == z->p->right) {
-					z = z->p;
-					rbtree_left_rotate(T, z);
-				}
-				z->p->color = BLACK;
-				z->p->p->color = RED;
-				rbtree_right_rotate(T, z->p->p);
-			}
-		}
-		else {
-			y = z->p->p->left;
-			if(y->color == RED) {
-				z->p->color = BLACK;
-				y->color = BLACK;
-				z->p->p->color = RED;
-				z = z->p->p;
-			}
-			else {
-				if(z == z->p->left) {
-					z = z->p;
-					rbtree_right_rotate(T, z);
-				}
-				z->p->color = BLACK;
-				z->p->p->color = RED;
-				rbtree_left_rotate(T, z->p->p);
-			}
-		}
-	}
-	T->root->color = BLACK;
-}
-
-/*
  * Insert a node in a red black tree
  */
 void rbtree_insert(RBTREE *T, RBNODE *z) {
@@ -327,89 +224,9 @@ void rbtree_insert(RBTREE *T, RBNODE *z) {
 	z->left = T->nil;
 	z->right = T->nil;
 	z->color = RED;//Make z red
-	rbtree_insert_fixup(T, z);//Call insert fixup to fix the tree if any of the red black properties are violeted
+	rbt_insert_fixup(T, z);//Call insert fixup to fix the tree if any of the red black properties are violeted
 }
 
-/*
- * Move a sub tree(parent node v)
- * in the place o a node(u)
- * in a red black tree
- */
-void rbtree_transplant(RBTREE *T, RBNODE *u, RBNODE *v) {
-	if(u->p == T->nil) {
-		T->root = v;
-	}
-	else if(u == u->p->left)	{
-		u->p->left = v;
-	}
-	else {
-		u->p->right = v;
-	}
-	v->p = u->p;
-}
-
-/*
- * Funtion to preserve the red black properties
- * of a tree(T) after the deletion of a node
- */
-void rbtree_delete_fixup(RBTREE *T, RBNODE *x) {
-	RBNODE *w;
-	while(x not_eq T->root and x->color == BLACK) {
-		if(x == x->p->left) {
-			w = x->p->right;
-			if(w->color == RED) {
-				w->color = BLACK;
-				x->p->color = RED;
-				rbtree_left_rotate(T, x->p);
-				w = x->p->right;
-			}
-			if(w->left->color == BLACK and w->right->color == BLACK) {
-				w->color = RED;
-				x = x->p;
-			}
-			else {
-				if(w->right->color == BLACK) {
-					w->left->color = BLACK;
-					w->color = RED;
-					rbtree_right_rotate(T, w);
-					w = x->p->right;
-				}
-				w->color = x->p->color;
-				x->p->color = BLACK;
-				w->right->color = BLACK;
-				rbtree_left_rotate(T, x->p);
-				x = T->root;
-			}
-		}
-		else {
-			w = x->p->left;
-			if(w->color == RED) {
-				w->color = BLACK;
-				x->p->color = RED;
-				rbtree_right_rotate(T, x->p);
-				w = x->p->left;
-			}
-			if(w->right->color == BLACK and w->left->color == BLACK) {
-				w->color = RED;
-				x = x->p;
-			}
-			else {
-				if(w->left->color == BLACK) {
-					w->right->color = BLACK;
-					w->color = RED;
-					rbtree_left_rotate(T, w);
-					w = x->p->left;
-				}
-				w->color = x->p->color;
-				x->p->color = BLACK;
-				w->left->color = BLACK;
-				rbtree_right_rotate(T, x->p);
-				x = T->root;
-			}
-		}
-	}
-	x->color = BLACK;
-}
 
 /*
  * Deletion of a node(z) in
@@ -420,11 +237,11 @@ void rbtree_delete(RBTREE *T, RBNODE *z) {
 	int y_original_color = y->color;
 	if(z->left == T->nil) {
 		x = z->right;
-		rbtree_transplant(T, z, z->right);
+		rbt_transplant(T, z, z->right);
 	}
 	else if(z->right == T->nil) {
 		x = z->left;
-		rbtree_transplant(T, z, z->left);
+		rbt_transplant(T, z, z->left);
 	}
 	else {
 		y_original_color = y->color;
@@ -433,11 +250,11 @@ void rbtree_delete(RBTREE *T, RBNODE *z) {
 			x->p = y;
 		}
 		else {
-			rbtree_transplant(T, y, y->right);
+			rbt_transplant(T, y, y->right);
 			y->right = z->right;
 			y->right->p = y;
 		}
-		rbtree_transplant(T, z, y);
+		rbt_transplant(T, z, y);
 		y->left = z->left;
 		y->left->p = y;
 		y->color = z->color;
