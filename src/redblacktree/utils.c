@@ -1,6 +1,17 @@
 #include "utils.h"
 
 /*
+ * Constructor of the red black tree node T.nil
+ */
+RBNODE *rbt_init_nil(void) {
+	RBNODE *nil = malloc(sizeof(RBNODE));
+	nil->key = 0;
+	nil->color = BLACK;
+	nil->p = nil->left = nil->right = NULL;
+	return nil;
+}
+
+/*
  * Left rotation of a node(x)
  * in a red black tree
  */
@@ -49,7 +60,7 @@ void rbt_right_rotate(RBTREE *T, RBNODE *y) {
 }
 
 /*
- * Funtion to preserve the red black properties
+ * Function to preserve the red black properties
  * of a tree(T) after the insertion of a node
  */
 void rbt_insert_fixup(RBTREE *T, RBNODE *z) {
@@ -96,6 +107,51 @@ void rbt_insert_fixup(RBTREE *T, RBNODE *z) {
 }
 
 /*
+ * Find the minimum node of a red black tree(T)
+ * starting from a node(x).
+ * The result is not always the minimum
+ * node of the tree
+ */
+RBNODE *rbtree_minimum(RBTREE *T, RBNODE *x) {
+	while(x->left != T->nil) {
+		x = x->left;
+	}
+	return x;
+}
+
+/*
+ * Find the maximum node of a red black tree(T)
+ * starting from a node(x).
+ * The result is not always the maximum
+ * node of the tree
+ */
+RBNODE *rbtree_maximum(RBTREE *T, RBNODE *x) {
+	while(x->right != T->nil) {
+		x = x->right;
+	}
+	return x;
+}
+
+/*
+ * Find a node that can replace another node(x)
+ * before it is deleted from that tree(T)
+ */
+RBNODE *rbtree_successor(RBTREE *T, RBNODE *x) {
+	if(x->right != T->nil) {
+		return rbtree_minimum(T, x->right);
+	}
+
+	RBNODE *y = x->p;
+
+	while(y != T->nil && x == y->right) {
+		x = y;
+		y = y->p;
+	}
+
+	return y;
+}
+
+/*
  * Move a sub tree(parent node v)
  * in the place o a node(u)
  * in a red black tree
@@ -114,7 +170,7 @@ void rbt_transplant(RBTREE *T, RBNODE *u, RBNODE *v) {
 }
 
 /*
- * Funtion to preserve the red black properties
+ * Function to preserve the red black properties
  * of a tree(T) after the deletion of a node
  */
 void rbtree_delete_fixup(RBTREE *T, RBNODE *x) {

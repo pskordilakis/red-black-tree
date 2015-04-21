@@ -5,13 +5,16 @@
  *      Author: P. Skordilakis
  */
 
-#ifndef REDBLACKTREE_H_
-#define REDBLACKTREE_H_
+#ifndef REDBLACKTREE_H
+#define REDBLACKTREE_H
+
+#ifdef	__cplusplus
+extern "C" {
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <iso646.h>
 #include <malloc.h>
 
 #include "rbnode.h"
@@ -28,7 +31,6 @@ bool rbt_is_root(RBTREE *T, RBNODE *x);
 RBNODE *rbt_init_node(int key);
 void rbt_destroy_node(RBTREE *T, int key);
 
-RBNODE *rbt_init_nil(void);
 RBTREE *rbt_init(void);
 void rbt_destroy(RBTREE *T);
 
@@ -37,11 +39,11 @@ void rbt_inorder(RBTREE *T, RBNODE *x);
 void rbt_preorder(RBTREE *T, RBNODE *x);
 void rbt_postorder(RBTREE *T, RBNODE *x);
 
-RBNODE *rbt_minimum(RBTREE *T, RBNODE *x);
-RBNODE *rbt_maximum(RBTREE *T, RBNODE *x);
-RBNODE *rbt_successor(RBTREE *T, RBNODE *x);
-
 void rbt_insert(RBTREE *T, RBNODE *z);
 void rbt_delete(RBTREE *T, RBNODE *z);
 
-#endif /* REDBLACKTREE_H_ */
+#ifdef	__cplusplus
+}
+#endif
+
+#endif /* REDBLACKTREE_H */
