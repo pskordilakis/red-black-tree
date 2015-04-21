@@ -9,7 +9,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <iso646.h>
-#include "redblacktree.h"
+
+#include "redblacktree/redblacktree.h"
 
 int main(int argc, char *argv[]) {
 
