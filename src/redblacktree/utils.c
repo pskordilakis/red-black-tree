@@ -112,7 +112,7 @@ void rbt_insert_fixup(RBTREE *T, RBNODE *z) {
  * The result is not always the minimum
  * node of the tree
  */
-RBNODE *rbtree_minimum(RBTREE *T, RBNODE *x) {
+RBNODE *rbt_minimum(RBTREE *T, RBNODE *x) {
 	while(x->left != T->nil) {
 		x = x->left;
 	}
@@ -125,7 +125,7 @@ RBNODE *rbtree_minimum(RBTREE *T, RBNODE *x) {
  * The result is not always the maximum
  * node of the tree
  */
-RBNODE *rbtree_maximum(RBTREE *T, RBNODE *x) {
+RBNODE *rbt_maximum(RBTREE *T, RBNODE *x) {
 	while(x->right != T->nil) {
 		x = x->right;
 	}
@@ -136,9 +136,9 @@ RBNODE *rbtree_maximum(RBTREE *T, RBNODE *x) {
  * Find a node that can replace another node(x)
  * before it is deleted from that tree(T)
  */
-RBNODE *rbtree_successor(RBTREE *T, RBNODE *x) {
+RBNODE *rbt_successor(RBTREE *T, RBNODE *x) {
 	if(x->right != T->nil) {
-		return rbtree_minimum(T, x->right);
+		return rbt_minimum(T, x->right);
 	}
 
 	RBNODE *y = x->p;
@@ -173,7 +173,7 @@ void rbt_transplant(RBTREE *T, RBNODE *u, RBNODE *v) {
  * Function to preserve the red black properties
  * of a tree(T) after the deletion of a node
  */
-void rbtree_delete_fixup(RBTREE *T, RBNODE *x) {
+void rbt_delete_fixup(RBTREE *T, RBNODE *x) {
 	RBNODE *w;
 	while(x != T->root && x->color == BLACK) {
 		if(x == x->p->left) {

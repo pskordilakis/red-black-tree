@@ -48,7 +48,7 @@ RBNODE *rbt_init_node(int key) {
  */
 void rbt_destroy_node(RBTREE *T, int key) {
 	RBNODE *delNode = rbt_search(T, T->root, key);
-	rbtree_delete(T, delNode);
+	rbt_delete(T, delNode);
 	free(delNode);
 }
 
@@ -161,7 +161,7 @@ void rbtree_insert(RBTREE *T, RBNODE *z) {
  * Deletion of a node(z) in
  * a red black tree
  */
-void rbtree_delete(RBTREE *T, RBNODE *z) {
+void rbt_delete(RBTREE *T, RBNODE *z) {
 	RBNODE *x, *y = z;
 	int y_original_color = y->color;
 	if(z->left == T->nil) {
@@ -189,6 +189,6 @@ void rbtree_delete(RBTREE *T, RBNODE *z) {
 		y->color = z->color;
 	}
 	if(y_original_color == BLACK) {
-		rbtree_delete_fixup(T, x);
+		rbt_delete_fixup(T, x);
 	}
 }

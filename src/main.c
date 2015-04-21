@@ -14,7 +14,7 @@
 
 int main(int argc, char *argv[]) {
 
-	RBTREE *T = init_rbtree();//Dhmiourgia Red Black Tree
+	RBTREE *T = rbt_init();//Create Red Black Tree
 
 	int choice = -1;
 
@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
 				puts("Type key");
 				scanf("%d", &key);
 				getchar();
-				RBNODE *newNode = init_rbnode(key);//Create a red black tree  node with specific key
+				RBNODE *newNode = rbt_init_node(key);//Create a red black tree  node with specific key
 				rbtree_insert(T, newNode);//Insert the node into red black tree
 				break;
 			}
@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
 				puts("Type key");
 				scanf("%d", &key);
 				getchar();
-				destr_rbtree_node(T, key);
+				rbt_destroy_node(T, key);
 				break;
 			}
 			case 3 : {
@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
 				puts("Type key");
 				scanf("%d", &key);
 				getchar();
-				RBNODE *searchNode = rbtree_search(T, T->root, key);
+				RBNODE *searchNode = rbt_search(T, T->root, key);
 				if(searchNode == T->nil) {
 					puts("The node does not exist");
 				}
@@ -58,22 +58,22 @@ int main(int argc, char *argv[]) {
 				break;
 			}
 			case 4 : {
-				inorder_rbtree_walk(T, T->root);//Print all the nodes in ascending order
+				rbt_inorder(T, T->root);//Print all the nodes in ascending order
 				puts("");
 				break;
 			}
 			case 5 : {
-				preorder_rbtree_walk(T, T->root);//Print all the nodes preorder
+				rbt_preorder(T, T->root);//Print all the nodes preorder
 				puts("");
 				break;
 			}
 			case 6 : {
-				postorder_rbtree_walk(T, T->root);//Print all the nodes postorder
+				rbt_postorder(T, T->root);//Print all the nodes postorder
 				puts("");
 				break;
 			}
 		}
 	}
-	destr_rbtree(T);
+	rbt_destroy(T);
 	return EXIT_SUCCESS;
 }

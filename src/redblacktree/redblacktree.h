@@ -17,12 +17,9 @@ extern "C" {
 #include <stdbool.h>
 #include <malloc.h>
 
+#include "rbtree.h"
 #include "rbnode.h"
 #include "utils.h"
-
-typedef struct rbtree {
-	RBNODE *root, *nil;
-}RBTREE;
 
 void rbt_to_dotfile(RBTREE *T);
 bool rbt_is_empty(RBTREE *T);

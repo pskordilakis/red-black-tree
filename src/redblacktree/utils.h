@@ -14,6 +14,7 @@ extern "C" {
 
 #include <stdlib.h>
     
+#include "rbtree.h"
 #include "rbnode.h"
 
 /**
