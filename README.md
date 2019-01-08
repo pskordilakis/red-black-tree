@@ -1,6 +1,8 @@
 RED-BLACK TREE DATA STRUCTURE
 =============================
 
+Written as part of the Algorithms and Data Structures course course for my MSc.
+
 INFO
 ----
 Red black tree is a search-tree scheme of binary tree. Some properties are
@@ -30,7 +32,7 @@ CODE
 
 cmake build tool is used to build the project. Red-black tree is build as a
 shared object library(.so), but it's not a generic data structure. The library
-is composed of several header and source files, so only some of the functions 
+is composed of several header and source files, so only some of the functions
 are exposed to the user, e.g. insert, search, delete. Functions that are used
 in the implementation of the data structure but are not meant to be used by the
 user are not exposed.
